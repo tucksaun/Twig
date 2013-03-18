@@ -59,7 +59,7 @@ class Twig_Lexer implements Twig_LexerInterface
         ), $options);
 
         $this->regexes = array(
-            'lex_var'             => '/\s*'.preg_quote($this->options['whitespace_trim'].$this->options['tag_variable'][1], '/').'\s*|\s*'.preg_quote($this->options['tag_variable'][1], '/').'/A',
+            'lex_var'             => '/\s*'.preg_quote($this->options['whitespace_trim'].$this->options['tag_variable'][1], '/').'\s*|\s*'.preg_quote($this->options['tag_variable'][1], '/').'/Au',
             'lex_block'           => '/\s*(?:'.preg_quote($this->options['whitespace_trim'].$this->options['tag_block'][1], '/').'\s*|\s*'.preg_quote($this->options['tag_block'][1], '/').')\n?/A',
             'lex_raw_data'        => '/('.preg_quote($this->options['tag_block'][0].$this->options['whitespace_trim'], '/').'|'.preg_quote($this->options['tag_block'][0], '/').')\s*(?:end%s)\s*(?:'.preg_quote($this->options['whitespace_trim'].$this->options['tag_block'][1], '/').'\s*|\s*'.preg_quote($this->options['tag_block'][1], '/').')/s',
             'operator'            => $this->getOperatorRegex(),
@@ -223,7 +223,7 @@ class Twig_Lexer implements Twig_LexerInterface
     protected function lexExpression()
     {
         // whitespace
-        if (preg_match('/\s+/A', $this->code, $match, null, $this->cursor)) {
+        if (preg_match('/\s+/Au', $this->code, $match, null, $this->cursor)) {
             $this->moveCursor($match[0]);
 
             if ($this->cursor >= $this->end) {

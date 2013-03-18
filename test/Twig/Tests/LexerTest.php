@@ -32,6 +32,17 @@ class Twig_Tests_LexerTest extends PHPUnit_Framework_TestCase
         $this->assertSame('☃', $stream->expect(Twig_Token::NAME_TYPE)->getValue());
     }
 
+    public function testNonBreakingSpacesForFunction()
+    {
+        $template = '{{ foo() }}';
+
+        $lexer = new Twig_Lexer(new Twig_Environment());
+        $stream = $lexer->tokenize($template);
+
+        $stream->expect(Twig_Token::VAR_START_TYPE);
+        $this->assertSame('foo', $stream->expect(Twig_Token::NAME_TYPE)->getValue());
+    }
+
     public function testBracketsNesting()
     {
         $template = '{{ {"a":{"b":"c"}} }}';
