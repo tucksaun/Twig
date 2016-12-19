@@ -31,6 +31,10 @@
 #define Z_ADDREF_P(pz)                (pz)->refcount++
 #endif
 
+#ifndef E_USER_DEPRECATED
+#define E_USER_DEPRECATED	(1<<14L)
+#endif
+
 #define FREE_DTOR(z) 	\
 	zval_dtor(z); 		\
 	efree(z);
@@ -1136,7 +1140,7 @@ PHP_FUNCTION(twig_template_get_attributes)
 				ZVAL_STRINGL(filename_func, "getTemplateName", sizeof("getTemplateName")-1, 1);
 				call_user_function(EG(function_table), &template, filename_func, this_filename, 0, 0 TSRMLS_CC);
 
-				bool self = (strcmp(Z_STRVAL_P(object_filename), Z_STRVAL_P(this_filename)) == 0);
+				int self = (strcmp(Z_STRVAL_P(object_filename), Z_STRVAL_P(this_filename)) == 0);
 
 				if (strcmp(methodForDeprecation, "renderBlock") == 0 || strcmp(methodForDeprecation, "displayBlock") == 0) {
 					zval **arg0;
